@@ -65,12 +65,12 @@
             <li class="nav-item">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
-            </li>
+{{--            <li class="nav-item d-none d-sm-inline-block">--}}
+{{--                <a href="" class="nav-link">Home</a>--}}
+{{--            </li>--}}
+{{--            <li class="nav-item d-none d-sm-inline-block">--}}
+{{--                <a href="#" class="nav-link">Contact</a>--}}
+{{--            </li>--}}
         </ul>
 
         <!-- Right navbar links -->
@@ -206,7 +206,7 @@
             <img src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                  class="brand-image img-circle elevation-3" style="opacity: .8">
             <span
-                class="brand-text font-weight-light">{{ \Illuminate\Support\Facades\Auth::user()->collage->name ?? "Parth" }}</span>
+                class="brand-text font-weight-light">{{ Auth::user()->university->name ?? '' }}</span>
         </a>
         <!-- Sidebar -->
         <div class="sidebar">
@@ -231,12 +231,61 @@
                          with font-awesome or any other icon font library -->
 
                     <li class="nav-item">
-                        <a href="" class="nav-link active">
+                        <a href="{{ route('index') }}" class="nav-link active">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
-                                Dashborad
+                                Dashboard
                             </p>
                         </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="nav-icon fas fa-school"></i>
+                            <p>
+                                School / College {{ Session::get('userType') === 'admin' ? '/ University' : '' }}
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @if (Session::get('userType') === 'admin')
+                            <li class="nav-item">
+                                <a href="{{ route('university') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List of University</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('add_university') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add University</p>
+                                </a>
+                            </li>
+                            @endif
+                            <li class="nav-item">
+                                <a href="{{ route('college') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List Of College</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('add_college') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add College</p>
+                                </a>
+                            </li>
+                                <li class="nav-item">
+                                <a href="{{ route('school') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List Of School</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('add_school') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Add School</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a href="" class="nav-link">
@@ -301,7 +350,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <a href="{{ route('logout') }}" class="nav-link">
                             <i class="nav-icon fas fa-power-off"></i>
                             <p class="text-danger">
                                 Logout

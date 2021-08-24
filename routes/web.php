@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('university', [\App\Http\Controllers\IndexConroller::class, 'University'])->name('university');
 
     Route::get('/add_college', [\App\Http\Controllers\IndexConroller::class, 'addCollege'])->name('add_college');
-    Route::post('/add_college', [\App\Http\Controllers\IndexConroller::class, 'submitCollage'])->name('submitCollage');
+    Route::post('/add_college', [\App\Http\Controllers\IndexConroller::class, 'submitCollage'])->name('submit_college');
     Route::get('college', [\App\Http\Controllers\IndexConroller::class, 'College'])->name('college');
 
     Route::get('add_school', [\App\Http\Controllers\IndexConroller::class, 'addSchool'])->name('add_school');

@@ -96,7 +96,6 @@ class IndexConroller extends Controller
 
     public function index()
     {
-        //dd('index');
         return view('index');
     }
 
@@ -150,7 +149,8 @@ class IndexConroller extends Controller
 
     public function addCollege()
     {
-        $universities = University::all();
+        $universities = User::with('university')->where('user_type','university')->get();
+        //dd($universities[0]->university->id);
         return view('add_college', ['universities' => $universities]);
     }
 
