@@ -71,40 +71,40 @@
         <ul class="navbar-nav ml-auto">
             <!-- Navbar Search -->
             <!-- Messages Dropdown Menu -->
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-comments"></i>
-                    <span class="badge badge-danger navbar-badge">3</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <!-- Message Start -->
-                        <div class="media">
-                            <img src="{{ asset('assets/dist/img/user3-128x128.jpg') }}" alt="User Avatar"
-                                 class="img-size-50 img-circle mr-3">
-                            <div class="media-body">
-                                <h3 class="dropdown-item-title">
-                                    Nora Silvester
-                                    <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                                </h3>
-                                <p class="text-sm">The subject goes here</p>
-                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                            </div>
-                        </div>
+{{--            <li class="nav-item dropdown">--}}
+{{--                <a class="nav-link" data-toggle="dropdown" href="#">--}}
+{{--                    <i class="far fa-comments"></i>--}}
+{{--                    <span class="badge badge-danger navbar-badge">3</span>--}}
+{{--                </a>--}}
+{{--                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">--}}
+{{--                    <div class="dropdown-divider"></div>--}}
+{{--                    <a href="#" class="dropdown-item">--}}
+{{--                        <!-- Message Start -->--}}
+{{--                        <div class="media">--}}
+{{--                            <img src="{{ asset('assets/dist/img/user3-128x128.jpg') }}" alt="User Avatar"--}}
+{{--                                 class="img-size-50 img-circle mr-3">--}}
+{{--                            <div class="media-body">--}}
+{{--                                <h3 class="dropdown-item-title">--}}
+{{--                                    Nora Silvester--}}
+{{--                                    <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>--}}
+{{--                                </h3>--}}
+{{--                                <p class="text-sm">The subject goes here</p>--}}
+{{--                                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
-                        <!-- Message End -->
-                    </a>
+{{--                        <!-- Message End -->--}}
+{{--                    </a>--}}
 
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item">
-                        <i class="fas fa-envelope mr-2"></i> 4 new messages
-                        <span class="float-right text-muted text-sm">3 mins</span>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                </div>
-            </li>
+{{--                    <div class="dropdown-divider"></div>--}}
+{{--                    <a href="#" class="dropdown-item">--}}
+{{--                        <i class="fas fa-envelope mr-2"></i> 4 new messages--}}
+{{--                        <span class="float-right text-muted text-sm">3 mins</span>--}}
+{{--                    </a>--}}
+{{--                    <div class="dropdown-divider"></div>--}}
+{{--                    <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>--}}
+{{--                </div>--}}
+{{--            </li>--}}
             <!-- Notifications Dropdown Menu -->
             <li class="nav-item">
                 <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -204,13 +204,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a href="{{ route('student') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>List Of Students</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a href="{{ route('add_student') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Student Form</p>
                                 </a>
@@ -226,28 +226,41 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
+                            @if (Session::get('userType') === 'university')
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a href="{{ route('certificate') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>List Of Certificate</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link">
+                                <a href="{{ route('add_certificate') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Generate Certificate</p>
                                 </a>
                             </li>
+                            @endif
+                            @if (Session::get('userType') === 'admin')
+                            <li class="nav-item">
+                                <a href="{{ route('certificate') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Claim Certificate</p>
+                                </a>
+                            </li>
+                            @endif
                         </ul>
                     </li>
+                    @if (Session::get('userType') === 'admin')
                     <li class="nav-item">
-                        <a href="" class="nav-link">
-                            <i class="nav-icon fas fa-hands-helping"></i>
+                        <a href="{{ route('activity') }}" class="nav-link">
+                            <i class="nav-icon fas fa-clock"></i>
                             <p>
-                                Help & Support
+                                Activity Log
                             </p>
                         </a>
                     </li>
+                    @endif
+                    @if (Session::get('userType') === 'university')
                     <li class="nav-item">
                         <a href="{{ route('profile') }}" class="nav-link">
                             <i class="nav-icon fas fa-user-alt"></i>
@@ -256,6 +269,7 @@
                             </p>
                         </a>
                     </li>
+                    @endif
                     <li class="nav-item">
                         <a href="{{ route('logout') }}" class="nav-link">
                             <i class="nav-icon fas fa-power-off"></i>

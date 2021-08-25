@@ -7,12 +7,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>University List</h1>
+                            <h1>School List</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-                                <li class="breadcrumb-item active">Add University</li>
+                                <li class="breadcrumb-item active">School list</li>
                             </ol>
                         </div>
                     </div>
@@ -49,22 +49,22 @@
                                 <thead>
                                 <tr>
                                     <th> # </th>
-                                    <th> University Name </th>
-                                    <th> University Code </th>
-                                    <th> University Contact No </th>
-                                    <th> University Email </th>
-                                    <th> University Address </th>
+                                    <th> School Name </th>
+                                    <th> School Code </th>
+                                    <th> School Contact No </th>
+                                    <th> School Email </th>
+                                    <th> School Address </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($universities as $no => $university)
+                                @foreach($schools as $school)
                                     <tr>
-                                        <td>{{ $no + 1 }}</td>
-                                        <td>{{ $university->university->name }}</td>
-                                        <td>{{ $university->university->code }}</td>
-                                        <td>{{ $university->university->contact_no }}</td>
-                                        <td>{{ $university->university->address }}</td>
-                                        <td>{{ $university->university->user->email }}</td>
+                                        <td> {{ $school->id }} </td>
+                                        <td> {{ $school->name }} </td>
+                                        <td> {{ $school->code }} </td>
+                                        <td> {{ $school->contact_no }} </td>
+                                        <td> {{ $school->user->email }} </td>
+                                        <td> {{ $school->address }} </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

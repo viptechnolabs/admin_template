@@ -16,9 +16,12 @@ use Illuminate\Support\Facades\Route;
 //    return view('test');
 //});
 
-Route::get('login', [\App\Http\Controllers\IndexConroller::class, 'login'])->name('login')->middleware('no-auth');
-Route::post('do_login', [\App\Http\Controllers\IndexConroller::class, 'doLogin'])->name('do_login')->middleware('no-auth');
-Route::get('logout', [\App\Http\Controllers\IndexConroller::class, 'logout'])->name('logout');
+Route::middleware(['no-auth'])->group(function () {
+    Route::get('login', [\App\Http\Controllers\IndexConroller::class, 'login'])->name('login');
+    Route::post('do_login', [\App\Http\Controllers\IndexConroller::class, 'doLogin'])->name('do_login');
+});
+
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [\App\Http\Controllers\IndexConroller::class, 'index'])->name('index');
@@ -46,6 +49,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('activity', [\App\Http\Controllers\IndexConroller::class, 'activity'])->name('activity');
     Route::get('profile', [\App\Http\Controllers\IndexConroller::class, 'profile'])->name('profile');
 
-
+    Route::get('logout', [\App\Http\Controllers\IndexConroller::class, 'logout'])->name('logout');
 
 });

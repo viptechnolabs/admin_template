@@ -19,11 +19,8 @@ class NoAuth
     {
         $result = Auth::check();
         if ($result) {
-            if (Auth::user()->type == 1) {
-                return redirect()->route('admin.index');
-            } elseif (Auth::user()->type == 0) {
                 return redirect()->route('index');
-            }
+
         }
         return $next($request);
     }

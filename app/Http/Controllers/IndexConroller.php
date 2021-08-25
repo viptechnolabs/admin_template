@@ -126,7 +126,8 @@ class IndexConroller extends Controller
 
     public function University()
     {
-        $universities = University::with('user')->get();
+        //$universities = University::with('user')->get();
+        $universities = User::with('university')->where('user_type','university')->get();
         return view('university', ['universities' => $universities]);
     }
 
@@ -173,14 +174,17 @@ class IndexConroller extends Controller
         return view('add_college', ['universities' => $universities]);
     }
 
-    public function College(SchoolDataTable $dataTable)
+    public function College()
     {
-        $colleges = College::with('user')->get();
-        //dd($colleges[0]->user->email);
-        return $dataTable->render('college', ['colleges' => $colleges]);
+        if (Session::get('userType') === 'admin') {
+            $colleges = College::with('user')->get();
+        } elseif (Session::get('userType') === 'university') {
+            $colleges = College::where('uni_id', Auth::user()->id)->get();
+        }
+        return view('college', ['colleges' => $colleges]);
     }
 
-    public function submitCollage(Request $request)
+    public function submitCollage(Request $request): \Illuminate\Http\RedirectResponse
     {
         $rules = array(
             'college_name' => 'required',
@@ -326,14 +330,11 @@ class IndexConroller extends Controller
         if (Session::get('userType') === 'admin') {
             $students = Student::with('college')->get();
         } elseif (Session::get('userType') === 'university') {
-            $collages = College::where('uni_id', Auth::user()->id)->get('id');
-            $students = [];
-            foreach ($collages as $collage) {
-                $record = Student::where('clg_id', $collage->id)->get();
-                if ($record !== NULL) {
-                    array_push($students, $record);
-                }
-            }
+            $students = Student::whereHas('college',function ($query){
+                $query->where('uni_id',Auth::user()->university->id);
+            })
+                ->orderBy('id', 'desc')
+                ->get();
         }
 
         return view('student', ['students' => $students]);
@@ -341,21 +342,20 @@ class IndexConroller extends Controller
 
     public function addCertificate()
     {
-        $collages = College::where('uni_id', Auth::user()->id)->get('id');
-        $students = [];
-        foreach ($collages as $collage) {
-            $record = Student::where('clg_id', $collage->id)->get();
-            if ($record !== NULL) {
-                array_push($students, $record);
-            }
-        }
-        return view('add_certificate', ['students' => $students]);
+        $students = Student::whereHas('college',function ($query){
+            $query->where('uni_id',Auth::user()->university->id);
+        })
+            ->orderBy('id', 'desc')
+            ->get();
+        $colleges = College::where('uni_id', Auth::user()->id)->get();
+        return view('add_certificate', ['students' => $students, 'colleges' => $colleges]);
     }
 
     public function submitCertificate(Request $request)
     {
         $rules = array(
             'student' => 'required',
+            'student_clg' => 'required',
             'certificate_name' => 'required|max:50',
             'issue_dob' => 'required',
             'student_stream' => 'required',
@@ -368,10 +368,11 @@ class IndexConroller extends Controller
             return redirect()->back()->withInput()->withErrors($validation);
         } else {
             $certificate = new Certificate();
-            $certificate_no_find = Student::orderBy('certificate_no', 'DESC')->first();
+            $certificate_no_find = Certificate::orderBy('certificate_no', 'DESC')->first();
             $certificate_no = substr($certificate_no_find->certificate_no ?? 'CR/' . $certificate_no_find->id . '/1', -1) + 1;
+            $certificate->clg_id  = $request->student_clg;
             $certificate->student_id = $request->student;
-            $certificate->certificate_no = 'CR' . $certificate_no_find->id . '/08/' . $certificate_no;
+            $certificate->certificate_no = 'CR/' . $certificate_no_find->id . '/08/' . $certificate_no;
             $certificate->name = $request->certificate_name;
             $certificate->issue_dob = $request->issue_dob;
             $certificate->stream = $request->student_stream;
@@ -391,8 +392,20 @@ class IndexConroller extends Controller
 
     public function Certificate()
     {
-        $certificates = Certificate::all();
-        dd($certificates);
+        if (Session::get('userType') === 'admin') {
+            $certificates = Certificate::with('student')
+                ->orderBy('id', 'desc')
+                ->get();
+        }
+        elseif (Session::get('userType') === 'university') {
+            $certificates = Certificate::whereHas('college',function ($query){
+                $query->where('uni_id',Auth::user()->university->id);
+            })
+                ->with('student')
+                ->orderBy('id', 'desc')
+                ->get();
+        }
+
         return view('certificate', ['certificates' => $certificates]);
     }
 

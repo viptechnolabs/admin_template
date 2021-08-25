@@ -7,12 +7,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>University List</h1>
+                            <h1>College List</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-                                <li class="breadcrumb-item active">Add University</li>
+                                <li class="breadcrumb-item active">College list</li>
                             </ol>
                         </div>
                     </div>
@@ -48,25 +48,44 @@
                             <table id="table" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th> # </th>
-                                    <th> University Name </th>
-                                    <th> University Code </th>
-                                    <th> University Contact No </th>
-                                    <th> University Email </th>
-                                    <th> University Address </th>
+                                    <th> #</th>
+                                    <th> Name</th>
+                                    <th> Enrollment No</th>
+                                    <th> Stream</th>
+                                    <th> Collage Name</th>
+                                    <th> Contact No</th>
+                                    <th> Email</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($universities as $no => $university)
-                                    <tr>
-                                        <td>{{ $no + 1 }}</td>
-                                        <td>{{ $university->university->name }}</td>
-                                        <td>{{ $university->university->code }}</td>
-                                        <td>{{ $university->university->contact_no }}</td>
-                                        <td>{{ $university->university->address }}</td>
-                                        <td>{{ $university->university->user->email }}</td>
-                                    </tr>
-                                @endforeach
+{{--                                @if(Session::get('userType') === 'admin')--}}
+                                    @foreach($students as $student)
+                                        <tr>
+                                            <td> {{ $student->id }} </td>
+                                            <td> {{ $student->name }} </td>
+                                            <td> {{ $student->enrollment_no }} </td>
+                                            <td> {{ $student->stream }} </td>
+                                            <td> {{ $student->college->name }} </td>
+                                            <td> {{ $student->contact_no }} </td>
+                                            <td> {{ $student->email }} </td>
+                                        </tr>
+                                    @endforeach
+{{--                                @endif--}}
+{{--                                @if(Session::get('userType') === 'university')--}}
+{{--                                    @foreach($students as $collages)--}}
+{{--                                        @foreach($collages as $student)--}}
+{{--                                            <tr>--}}
+{{--                                                <td> {{ $student->id }} </td>--}}
+{{--                                                <td> {{ $student->name }} </td>--}}
+{{--                                                <td> {{ $student->enrollment_no }} </td>--}}
+{{--                                                <td> {{ $student->stream }} </td>--}}
+{{--                                                <td> {{ $student->college->name }} </td>--}}
+{{--                                                <td> {{ $student->contact_no }} </td>--}}
+{{--                                                <td> {{ $student->email }} </td>--}}
+{{--                                            </tr>--}}
+{{--                                        @endforeach--}}
+{{--                                    @endforeach--}}
+{{--                                @endif--}}
                                 </tbody>
                             </table>
                         </div>

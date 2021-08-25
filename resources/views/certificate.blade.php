@@ -7,12 +7,12 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>University List</h1>
+                            <h1>College List</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
-                                <li class="breadcrumb-item active">Add University</li>
+                                <li class="breadcrumb-item active">College list</li>
                             </ol>
                         </div>
                     </div>
@@ -49,22 +49,26 @@
                                 <thead>
                                 <tr>
                                     <th> # </th>
-                                    <th> University Name </th>
-                                    <th> University Code </th>
-                                    <th> University Contact No </th>
-                                    <th> University Email </th>
-                                    <th> University Address </th>
+                                    <th> Student Name </th>
+                                    <th> Certificate No </th>
+                                    <th> Certificate Name </th>
+                                    <th> Issue Date </th>
+                                    <th> stream </th>
+                                    <th> Passing Year </th>
+                                    <th> Grade </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($universities as $no => $university)
+                                @foreach($certificates as $no => $certificate)
                                     <tr>
-                                        <td>{{ $no + 1 }}</td>
-                                        <td>{{ $university->university->name }}</td>
-                                        <td>{{ $university->university->code }}</td>
-                                        <td>{{ $university->university->contact_no }}</td>
-                                        <td>{{ $university->university->address }}</td>
-                                        <td>{{ $university->university->user->email }}</td>
+                                        <td> {{ $no + 1 }} </td>
+                                        <td> {{ $certificate->student->name  }} </td>
+                                        <td> {{ $certificate->certificate_no  }} </td>
+                                        <td> {{ $certificate->name }} </td>
+                                        <td> {{ $certificate->issue_dob }} </td>
+                                        <td> {{ $certificate->stream }} </td>
+                                        <td> {{ $certificate->passing_year }} </td>
+                                        <td> {{ $certificate->grade }} </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
