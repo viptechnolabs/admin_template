@@ -89,14 +89,33 @@ class IndexConroller extends Controller
     public function activity()
     {
         $activities = Activity::orderBy('id', 'DESC')->get(); //returns the last logged activity
-        //dd($activities->causer);
         return view('activity', ['activities' => $activities]);
-        dd($activities);
+    }
+
+    public function profile()
+    {
+        $profile = Auth::user();
+        return view('profile', ['profile' => $profile]);
     }
 
     public function index()
     {
-        return view('index');
+        if (Session::get('userType') === 'admin') {
+            $university_count = University::all()->count() -1;
+            $college_count = College::all()->count();
+            $school_count = School::all()->count();
+            $certificate_count = Certificate::all()->count();
+        } elseif (Session::get('userType') === 'university') {
+            $university_count = University::where('id', Auth::user()->id)->count();
+            $college_count = College::where('uni_id', Auth::user()->id)->count();
+            $school_count = School::all()->count();
+            $certificate_count = Certificate::all()->count();
+        }
+        return view('index', ['university_count' => $university_count,
+            'college_count' => $college_count,
+            'school_count' => $school_count,
+            'certificate_count' => $certificate_count
+        ]);
     }
 
 
