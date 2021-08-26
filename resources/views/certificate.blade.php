@@ -66,9 +66,9 @@
                                         <td> {{ $certificate->certificate_no  }} </td>
                                         <td> {{ $certificate->name }} </td>
                                         <td> {{ $certificate->issue_dob }} </td>
-                                        <td> {{ $certificate->stream }} </td>
+                                        <td> {{ ucfirst($certificate->stream) }} </td>
                                         <td> {{ $certificate->passing_year }} </td>
-                                        <td> {{ $certificate->grade }} </td>
+                                        <td> {{ strtoupper($certificate->grade) }} </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

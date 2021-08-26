@@ -83,7 +83,7 @@ class IndexConroller extends Controller
         Auth::logout();
         return redirect()
             ->route('login')
-            ->with('status', 'Logout successfully...!');
+            ->with('message', 'Logout successfully...!');
     }
 
     public function activity()
@@ -179,7 +179,7 @@ class IndexConroller extends Controller
         if (Session::get('userType') === 'admin') {
             $colleges = College::with('user')->get();
         } elseif (Session::get('userType') === 'university') {
-            $colleges = College::where('uni_id', Auth::user()->id)->get();
+            $colleges = College::where('uni_id', Auth::user()->university->id)->get();
         }
         return view('college', ['colleges' => $colleges]);
     }
@@ -347,7 +347,7 @@ class IndexConroller extends Controller
         })
             ->orderBy('id', 'desc')
             ->get();
-        $colleges = College::where('uni_id', Auth::user()->id)->get();
+        $colleges = College::where('uni_id', Auth::user()->university->id)->get();
         return view('add_certificate', ['students' => $students, 'colleges' => $colleges]);
     }
 
@@ -372,7 +372,7 @@ class IndexConroller extends Controller
             $certificate_no = substr($certificate_no_find->certificate_no ?? 'CR/' . $certificate_no_find->id . '/1', -1) + 1;
             $certificate->clg_id  = $request->student_clg;
             $certificate->student_id = $request->student;
-            $certificate->certificate_no = 'CR/' . $certificate_no_find->id . '/08/' . $certificate_no;
+            $certificate->certificate_no = 'CR/'. strtoupper($request->student_stream) . '/' . $certificate_no;
             $certificate->name = $request->certificate_name;
             $certificate->issue_dob = $request->issue_dob;
             $certificate->stream = $request->student_stream;
@@ -386,7 +386,7 @@ class IndexConroller extends Controller
                 ->log($request->certificate_name . 'certificate are added');
 
             session()->flash('message', 'Certificate Add Successfully..!');
-            return redirect()->route('student');
+            return redirect()->route('certificate');
         }
     }
 

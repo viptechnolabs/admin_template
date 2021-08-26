@@ -29,7 +29,7 @@
                         <div class="card card-primary">
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form action="{{ route('submit_certificate') }}" method="POST" name="add_student" id="add_student">
+                            <form action="{{ route('submit_certificate') }}" method="POST" name="add_certificate" id="add_certificate">
                                 @csrf
                                 @if ($errors->any())
                                     @foreach ($errors->all() as $message)

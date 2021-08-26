@@ -29,7 +29,7 @@
                         <div class="card card-primary">
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form action="{{ route('submit_school') }}" method="POST" name="add_college" id="add_college">
+                            <form action="{{ route('submit_school') }}" method="POST" name="add_school" id="add_school">
                                 @csrf
                                 @if ($errors->any())
                                     @foreach ($errors->all() as $message)

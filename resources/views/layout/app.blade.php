@@ -358,6 +358,12 @@
 <!-- Bootstrap JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+<!--Validation-->
+<script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+{{--<script src="{{ asset('js/validation_rules.js') }}"></script>--}}
+<script src="{{ asset('js/custom_validation_rules.js') }}"></script>
+<script src="{{ asset('js/validation.js') }}"></script>
+
 <!--datatable-->
 <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>

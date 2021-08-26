@@ -59,10 +59,11 @@
                                 @foreach($activities as $no => $activity)
                                     <tr>
                                         <td>{{ $no + 1 }}</td>
-                                        <td>{{ date('d-M-Y  H:i:s', strtotime($activity->created_at)) }}</td>  @php
-                                            $data = App\Models\University::find($activity->causer->id)
+                                        <td>{{ date('d-M-Y  H:i:s', strtotime($activity->created_at)) }}</td>
+                                        @php
+                                            $name_temp = App\Models\User::with('university')->where('id',$activity->causer->id)->first();
                                         @endphp
-                                        <td>{{ $data->name }}</td>
+                                        <td>{{ $name_temp->university->name}}</td>
                                         <td>{{$activity->log_name}}</td>
                                         <td id="msg">{{$activity->description}}</td>
                                     </tr>
