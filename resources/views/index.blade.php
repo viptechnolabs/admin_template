@@ -22,13 +22,14 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>{{ $university_count }}</h3>
-                                <p>University</p>
+                                <h3>{{ Session::get('userType') === 'admin'? $university_count : $school_count }}</h3>
+                                <p>{{ Session::get('userType') === 'admin'? 'University' : 'School' }}</p>
                             </div>
                             <div class="icon">
-                                <i class="nav-icon fas fa-school"></i>
+                                <i class="nav-icon fas fa-{{ Session::get('userType') === 'admin'? 'university' : 'school' }}"></i>
                             </div>
-                            <a href="{{ route('university') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ Session::get('userType') === 'admin'? route('university') : route('school')  }}"
+                               class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-6">
@@ -40,19 +41,21 @@
                             <div class="icon">
                                 <i class="nav-icon fas fa-school"></i>
                             </div>
-                            <a href="{{ route('college') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('college') }}" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>{{ $school_count }}</h3>
-                                <p>School</p>
+                                <h3>{{ $student_count }}</h3>
+                                <p>Student</p>
                             </div>
                             <div class="icon">
-                                <i class="nav-icon fas fa-school"></i>
+                                <i class="nav-icon fas fa-user-graduate"></i>
                             </div>
-                            <a href="{{ route('school') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('student') }}" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-6">
@@ -62,9 +65,10 @@
                                 <p>Certificate</p>
                             </div>
                             <div class="icon">
-                                <i class="nav-icon fas fa-file"></i>
+                                <i class="nav-icon fas fa-medal"></i>
                             </div>
-                            <a href="{{ route('certificate') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('certificate') }}" class="small-box-footer">More info <i
+                                    class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -85,8 +89,18 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                                    <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;" width="765" height="250" class="chartjs-render-monitor"></canvas>
+                                <div class="chart">
+                                    <div class="chartjs-size-monitor">
+                                        <div class="chartjs-size-monitor-expand">
+                                            <div class=""></div>
+                                        </div>
+                                        <div class="chartjs-size-monitor-shrink">
+                                            <div class=""></div>
+                                        </div>
+                                    </div>
+                                    <canvas id="areaChart"
+                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;"
+                                            width="765" height="250" class="chartjs-render-monitor"></canvas>
                                 </div>
                             </div>
                             <!-- /.card-body -->
@@ -107,8 +121,18 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                                <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;" width="765" height="250" class="chartjs-render-monitor"></canvas>
+                            <div class="card-body">
+                                <div class="chartjs-size-monitor">
+                                    <div class="chartjs-size-monitor-expand">
+                                        <div class=""></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink">
+                                        <div class=""></div>
+                                    </div>
+                                </div>
+                                <canvas id="donutChart"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;"
+                                        width="765" height="250" class="chartjs-render-monitor"></canvas>
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -128,8 +152,18 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="card-body"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                                <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;" width="765" height="250" class="chartjs-render-monitor"></canvas>
+                            <div class="card-body">
+                                <div class="chartjs-size-monitor">
+                                    <div class="chartjs-size-monitor-expand">
+                                        <div class=""></div>
+                                    </div>
+                                    <div class="chartjs-size-monitor-shrink">
+                                        <div class=""></div>
+                                    </div>
+                                </div>
+                                <canvas id="pieChart"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;"
+                                        width="765" height="250" class="chartjs-render-monitor"></canvas>
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -153,8 +187,18 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                                    <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;" width="765" height="250" class="chartjs-render-monitor"></canvas>
+                                <div class="chart">
+                                    <div class="chartjs-size-monitor">
+                                        <div class="chartjs-size-monitor-expand">
+                                            <div class=""></div>
+                                        </div>
+                                        <div class="chartjs-size-monitor-shrink">
+                                            <div class=""></div>
+                                        </div>
+                                    </div>
+                                    <canvas id="lineChart"
+                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;"
+                                            width="765" height="250" class="chartjs-render-monitor"></canvas>
                                 </div>
                             </div>
                             <!-- /.card-body -->
@@ -176,8 +220,18 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                                    <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;" width="765" height="250" class="chartjs-render-monitor"></canvas>
+                                <div class="chart">
+                                    <div class="chartjs-size-monitor">
+                                        <div class="chartjs-size-monitor-expand">
+                                            <div class=""></div>
+                                        </div>
+                                        <div class="chartjs-size-monitor-shrink">
+                                            <div class=""></div>
+                                        </div>
+                                    </div>
+                                    <canvas id="barChart"
+                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;"
+                                            width="765" height="250" class="chartjs-render-monitor"></canvas>
                                 </div>
                             </div>
                             <!-- /.card-body -->
@@ -199,8 +253,18 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                                    <canvas id="stackedBarChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;" width="765" height="250" class="chartjs-render-monitor"></canvas>
+                                <div class="chart">
+                                    <div class="chartjs-size-monitor">
+                                        <div class="chartjs-size-monitor-expand">
+                                            <div class=""></div>
+                                        </div>
+                                        <div class="chartjs-size-monitor-shrink">
+                                            <div class=""></div>
+                                        </div>
+                                    </div>
+                                    <canvas id="stackedBarChart"
+                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 765px;"
+                                            width="765" height="250" class="chartjs-render-monitor"></canvas>
                                 </div>
                             </div>
                             <!-- /.card-body -->

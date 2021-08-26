@@ -101,20 +101,25 @@ class IndexConroller extends Controller
     public function index()
     {
         if (Session::get('userType') === 'admin') {
-            $university_count = University::all()->count() -1;
+            $university_count = University::all()->count() - 1;
             $college_count = College::all()->count();
             $school_count = School::all()->count();
+            $student_count = Student::all()->count();
             $certificate_count = Certificate::all()->count();
         } elseif (Session::get('userType') === 'university') {
             $university_count = University::where('id', Auth::user()->id)->count();
-            $college_count = College::where('uni_id', Auth::user()->id)->count();
+            $college_count = College::where('uni_id', Auth::user()->university->id)->count();
             $school_count = School::all()->count();
+            $student_count = Student::whereHas('college', function ($query) {
+                $query->where('uni_id', Auth::user()->university->id);
+            })->count();
             $certificate_count = Certificate::all()->count();
         }
         return view('index', ['university_count' => $university_count,
             'college_count' => $college_count,
             'school_count' => $school_count,
-            'certificate_count' => $certificate_count
+            'certificate_count' => $certificate_count,
+            'student_count' => $student_count
         ]);
     }
 
@@ -127,7 +132,7 @@ class IndexConroller extends Controller
     public function University()
     {
         //$universities = University::with('user')->get();
-        $universities = User::with('university')->where('user_type','university')->get();
+        $universities = User::with('university')->where('user_type', 'university')->get();
         return view('university', ['universities' => $universities]);
     }
 
@@ -169,7 +174,7 @@ class IndexConroller extends Controller
 
     public function addCollege()
     {
-        $universities = User::with('university')->where('user_type','university')->get();
+        $universities = User::with('university')->where('user_type', 'university')->get();
         //dd($universities[0]->university->id);
         return view('add_college', ['universities' => $universities]);
     }
@@ -281,7 +286,7 @@ class IndexConroller extends Controller
         if (Session::get('userType') === 'admin') {
             $colleges = College::all();
         } elseif (Session::get('userType') === 'university') {
-            $colleges = College::where('uni_id', Auth::user()->id)->get();
+            $colleges = College::where('uni_id', Auth::user()->university->id)->get();
         }
         return view('add_student', ['colleges' => $colleges]);
     }
@@ -330,8 +335,8 @@ class IndexConroller extends Controller
         if (Session::get('userType') === 'admin') {
             $students = Student::with('college')->get();
         } elseif (Session::get('userType') === 'university') {
-            $students = Student::whereHas('college',function ($query){
-                $query->where('uni_id',Auth::user()->university->id);
+            $students = Student::whereHas('college', function ($query) {
+                $query->where('uni_id', Auth::user()->university->id);
             })
                 ->orderBy('id', 'desc')
                 ->get();
@@ -342,8 +347,8 @@ class IndexConroller extends Controller
 
     public function addCertificate()
     {
-        $students = Student::whereHas('college',function ($query){
-            $query->where('uni_id',Auth::user()->university->id);
+        $students = Student::whereHas('college', function ($query) {
+            $query->where('uni_id', Auth::user()->university->id);
         })
             ->orderBy('id', 'desc')
             ->get();
@@ -370,9 +375,9 @@ class IndexConroller extends Controller
             $certificate = new Certificate();
             $certificate_no_find = Certificate::orderBy('certificate_no', 'DESC')->first();
             $certificate_no = substr($certificate_no_find->certificate_no ?? 'CR/' . $certificate_no_find->id . '/1', -1) + 1;
-            $certificate->clg_id  = $request->student_clg;
+            $certificate->clg_id = $request->student_clg;
             $certificate->student_id = $request->student;
-            $certificate->certificate_no = 'CR/'. strtoupper($request->student_stream) . '/' . $certificate_no;
+            $certificate->certificate_no = 'CR/' . strtoupper($request->student_stream) . '/' . $certificate_no;
             $certificate->name = $request->certificate_name;
             $certificate->issue_dob = $request->issue_dob;
             $certificate->stream = $request->student_stream;
@@ -396,10 +401,9 @@ class IndexConroller extends Controller
             $certificates = Certificate::with('student')
                 ->orderBy('id', 'desc')
                 ->get();
-        }
-        elseif (Session::get('userType') === 'university') {
-            $certificates = Certificate::whereHas('college',function ($query){
-                $query->where('uni_id',Auth::user()->university->id);
+        } elseif (Session::get('userType') === 'university') {
+            $certificates = Certificate::whereHas('college', function ($query) {
+                $query->where('uni_id', Auth::user()->university->id);
             })
                 ->with('student')
                 ->orderBy('id', 'desc')
