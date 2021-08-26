@@ -48,14 +48,17 @@
                             <table id="table" class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th> # </th>
-                                    <th> Student Name </th>
-                                    <th> Certificate No </th>
-                                    <th> Certificate Name </th>
-                                    <th> Issue Date </th>
-                                    <th> stream </th>
-                                    <th> Passing Year </th>
-                                    <th> Grade </th>
+                                    <th> #</th>
+                                    <th> Student Name</th>
+                                    <th> Certificate No</th>
+                                    <th> Certificate Name</th>
+                                    <th> Issue Date</th>
+                                    <th> stream</th>
+                                    <th> Passing Year</th>
+                                    <th> Grade</th>
+                                    @if (Session::get('userType') === 'admin')
+                                        <th> Action</th>
+                                    @endif
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -69,6 +72,19 @@
                                         <td> {{ ucfirst($certificate->stream) }} </td>
                                         <td> {{ $certificate->passing_year }} </td>
                                         <td> {{ strtoupper($certificate->grade) }} </td>
+                                        @if (Session::get('userType') === 'admin' && $certificate->status == 0)
+                                            <td>
+                                                <a href="{{ route('claim', $certificate->id) }}">
+                                                <button type="submit"
+                                                        class="btn btn-primary">Claim</button>
+                                                </a>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <button type="submit"
+                                                        class="btn btn-primary disabled">Claim Done</button>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                                 </tbody>

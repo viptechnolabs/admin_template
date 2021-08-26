@@ -374,7 +374,7 @@ class IndexConroller extends Controller
         } else {
             $certificate = new Certificate();
             $certificate_no_find = Certificate::orderBy('certificate_no', 'DESC')->first();
-            $certificate_no = substr($certificate_no_find->certificate_no ?? 'CR/' . $certificate_no_find->id . '/1', -1) + 1;
+            $certificate_no = substr($certificate_no_find->certificate_no ?? '/0', -1) + 1;
             $certificate->clg_id = $request->student_clg;
             $certificate->student_id = $request->student;
             $certificate->certificate_no = 'CR/' . strtoupper($request->student_stream) . '/' . $certificate_no;
@@ -411,6 +411,15 @@ class IndexConroller extends Controller
         }
 
         return view('certificate', ['certificates' => $certificates]);
+    }
+
+    public function certificateClaim($id)
+    {
+        $certificate = Certificate::findOrFail($id);
+        $certificate->status = '1';
+        $certificate->save();
+        session()->flash('message', 'Certificate mark claim successfully..!');
+        return redirect()->back();
     }
 
 

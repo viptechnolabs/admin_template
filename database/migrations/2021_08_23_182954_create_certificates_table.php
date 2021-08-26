@@ -24,6 +24,7 @@ class CreateCertificatesTable extends Migration
             $table->enum('language', ['english', 'hindi']);
             $table->string('passing_year');
             $table->string('grade');
+            $table->enum('status', ['0', '1'])->default(0);
             $table->timestamps();
             $table->foreign('student_id')->references('id')->on('students');
             $table->foreign('clg_id')->references('id')->on('colleges');

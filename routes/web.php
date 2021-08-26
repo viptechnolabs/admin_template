@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('activity', [\App\Http\Controllers\IndexConroller::class, 'activity'])->name('activity');
     Route::get('profile', [\App\Http\Controllers\IndexConroller::class, 'profile'])->name('profile');
+    Route::get('claim/{id}', [\App\Http\Controllers\IndexConroller::class, 'certificateClaim'])->name('claim');
 
     Route::get('logout', [\App\Http\Controllers\IndexConroller::class, 'logout'])->name('logout');
 
