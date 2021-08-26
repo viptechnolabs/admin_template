@@ -75,16 +75,18 @@
                                         @if (Session::get('userType') === 'admin' && $certificate->status == 0)
                                             <td>
                                                 <a href="{{ route('claim', $certificate->id) }}">
-                                                <button type="submit"
-                                                        class="btn btn-primary">Claim</button>
+                                                    <button type="submit"
+                                                            class="btn btn-primary">Claim
+                                                    </button>
                                                 </a>
                                             </td>
-                                        @else
-                                            <td>
-                                                <button type="submit"
-                                                        class="btn btn-primary disabled">Claim Done</button>
-                                            </td>
-                                        @endif
+                                        @elseif (Session::get('userType') === 'admin' && $certificate->status == 1)
+                                                <td>
+                                                    <button type="submit"
+                                                            class="btn btn-primary disabled">Claim Done
+                                                    </button>
+                                                </td>
+                                            @endif
                                     </tr>
                                 @endforeach
                                 </tbody>
